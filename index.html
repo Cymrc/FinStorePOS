@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sari-Sari Store POS System - Cashier Terminal</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- APP HEADER -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand">
+                <span class="store-icon">🛒</span>
+                <div>
+                    <h1>Fin Store</h1>
+                    <p class="subtitle">CASHIER POINT OF SALE SYSTEM</p>
+                </div>
+            </div>
+            <div class="header-info">
+                <span class="store-badge">Cashier Terminal</span>
+                <span id="current-datetime" class="datetime-display"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN POS CONTAINER -->
+    <main class="main-container">
+        
+        <!-- TOP SECTION: PRODUCT SELECTION & CURRENT SALE -->
+        <section class="pos-workspace">
+            
+            <!-- LEFT COLUMN: PRODUCT SELECTION -->
+            <div class="card catalog-card">
+                <div class="card-header">
+                    <h2>PRODUCT SELECTION</h2>
+                    <span id="product-count" class="count-badge">50 Products</span>
+                </div>
+                
+                <!-- Cashier Quick Add Form -->
+                <div class="selection-form">
+                    <div class="form-row">
+                        <div class="form-group col-id">
+                            <label for="quick-id-input">Product ID:</label>
+                            <input type="number" id="quick-id-input" placeholder="e.g. 1" min="1" max="50" class="form-control">
+                        </div>
+
+                        <div class="form-group col-select">
+                            <label for="product-select-dropdown">Select Product:</label>
+                            <select id="product-select-dropdown" class="form-control">
+                                <option value="">-- Choose or Search Product --</option>
+                                <!-- Populated dynamically by script.js -->
+                            </select>
+                        </div>
+
+                        <div class="form-group col-qty">
+                            <label for="quick-qty-input">Quantity:</label>
+                            <input type="number" id="quick-qty-input" value="1" min="1" max="99" class="form-control">
+                        </div>
+                    </div>
+
+                    <button id="add-item-btn" class="btn btn-success btn-block btn-add-item">
+                        <span>ADD ITEM</span>
+                    </button>
+                </div>
+
+                <!-- Search & Category Filter Controls -->
+                <div class="filter-controls-container">
+                    <!-- Search Input Bar -->
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="search-input" placeholder="Search product by name or ID (e.g. 'mango' or '39')..." aria-label="Search product">
+                        <button id="clear-search-btn" class="clear-search-btn" title="Clear Search">&times;</button>
+                    </div>
+
+                    <!-- Category Filter Dropdown & Quick Pills -->
+                    <div class="category-filter-box">
+                        <div class="category-dropdown-group">
+                            <label for="category-filter-select" class="category-label">Filter Category:</label>
+                            <select id="category-filter-select" class="form-control category-select">
+                                <option value="All">All Categories (50)</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Sweets & Desserts">Sweets & Desserts</option>
+                                <option value="Beverages">Beverages</option>
+                                <option value="Cooking Essentials">Cooking Essentials</option>
+                                <option value="Meat & Frozen">Meat & Frozen</option>
+                                <option value="Seafood">Seafood</option>
+                                <option value="Rice & Grains">Rice & Grains</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Bakery & Kakanin">Bakery & Kakanin</option>
+                                <option value="Dairy & Eggs">Dairy & Eggs</option>
+                            </select>
+                        </div>
+
+                        <!-- Category Pills Bar -->
+                        <div id="category-pills-bar" class="category-pills-bar">
+                            <button class="pill-btn active" data-category="All">All</button>
+                            <button class="pill-btn" data-category="Snacks">Snacks</button>
+                            <button class="pill-btn" data-category="Sweets & Desserts">Sweets</button>
+                            <button class="pill-btn" data-category="Beverages">Beverages</button>
+                            <button class="pill-btn" data-category="Cooking Essentials">Cooking</button>
+                            <button class="pill-btn" data-category="Meat & Frozen">Meat</button>
+                            <button class="pill-btn" data-category="Seafood">Seafood</button>
+                            <button class="pill-btn" data-category="Rice & Grains">Grains</button>
+                            <button class="pill-btn" data-category="Fruits">Fruits</button>
+                            <button class="pill-btn" data-category="Vegetables">Veggies</button>
+                            <button class="pill-btn" data-category="Bakery & Kakanin">Bakery</button>
+                            <button class="pill-btn" data-category="Dairy & Eggs">Dairy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Available Products List Header -->
+                <div class="catalog-subheader">
+                    <h3>Available Products</h3>
+                    <small id="active-filter-label">Showing All Categories</small>
+                </div>
+                
+                <!-- Product Tiles Grid with Images -->
+                <div id="products-grid" class="products-grid">
+                    <!-- Dynamic Product Cards populated by script.js -->
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: CURRENT SALE SIDEBAR -->
+            <div class="card cart-card">
+                <div class="card-header">
+                    <h2>CURRENT SALE</h2>
+                    <button id="clear-sale-btn" class="btn btn-sm btn-secondary btn-clear-sale" title="Clear Only Current Customer Sale">CLEAR CURRENT SALE</button>
+                </div>
+
+                <!-- Customer Name Field (Optional) -->
+                <div class="form-group customer-group">
+                    <label for="customer-name-input">Customer Name (Optional):</label>
+                    <input type="text" id="customer-name-input" placeholder="e.g. Juan Dela Cruz" class="form-control">
+                </div>
+
+                <!-- Transaction Items List -->
+                <div class="cart-items-container">
+                    <div id="cart-items-list" class="cart-items-list">
+                        <!-- Dynamic Cart Items populated by script.js -->
+                    </div>
+                </div>
+
+                <!-- Transaction Summary & Cashier Payment Panel -->
+                <div class="cart-summary-panel">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <strong id="cart-subtotal">₱0.00</strong>
+                    </div>
+                    
+                    <div class="summary-row discount-row">
+                        <span>
+                            Discount:
+                            <small class="discount-note" id="discount-note">(10% if Subtotal &gt; ₱1,000)</small>
+                        </span>
+                        <strong id="cart-discount" class="text-success">-₱0.00</strong>
+                    </div>
+                    
+                    <div class="summary-row total-row">
+                        <span>TOTAL:</span>
+                        <strong id="cart-total" class="total-amount">₱0.00</strong>
+                    </div>
+
+                    <hr class="divider">
+
+                    <!-- Cash Payment Inputs -->
+                    <div class="payment-inputs">
+                        <div class="form-group">
+                            <label for="amount-paid-input">Cash Received (₱):</label>
+                            <input type="number" id="amount-paid-input" placeholder="0.00" min="0" step="1" class="form-control form-control-lg">
+                        </div>
+                        
+                        <div class="summary-row change-row">
+                            <span>Change:</span>
+                            <strong id="cart-change" class="change-amount">₱0.00</strong>
+                        </div>
+                    </div>
+
+                    <!-- Error / Status Alert Box -->
+                    <div id="cart-error-msg" class="alert-box alert-danger hidden" role="alert"></div>
+
+                    <!-- Checkout Action Buttons -->
+                    <div class="action-buttons-group">
+                        <button id="checkout-btn" class="btn btn-primary btn-block btn-lg btn-complete-sale">
+                            <span>COMPLETE SALE</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- MIDDLE SECTION: SALES SUMMARY DASHBOARD -->
+        <section class="reports-section">
+            <h2 class="section-title">📊 SALES SUMMARY</h2>
+            <div class="stats-grid">
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-transactions">📝</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Total Transactions</span>
+                        <h3 id="stat-total-transactions">0</h3>
+                        <p class="stat-subtext">Saved completed sales</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon icon-sales">💰</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Total Sales</span>
+                        <h3 id="stat-total-sales">₱0.00</h3>
+                        <p class="stat-subtext">Gross sales revenue</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon icon-top">🏆</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Most Purchased Product</span>
+                        <h3 id="stat-top-product">None yet</h3>
+                        <p id="stat-top-product-qty" class="stat-subtext">0 units sold</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon icon-category">🏷️</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Top Category</span>
+                        <h3 id="stat-top-category">None yet</h3>
+                        <p id="stat-top-category-sales" class="stat-subtext">₱0.00 sales</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- BOTTOM SECTION: TRANSACTION RECORDS TABLE -->
+        <section class="history-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📋 TRANSACTION RECORDS</h2>
+                    <div class="header-actions">
+                        <span id="history-count" class="count-badge">0 Records</span>
+                        <button id="clear-records-btn" class="btn btn-sm btn-outline-danger btn-clear-records" title="Permanently Delete All Completed Transaction History">
+                            ⚠️ CLEAR ALL RECORDS
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Date & Time</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Subtotal</th>
+                                <th>Discount</th>
+                                <th>Total</th>
+                                <th>Paid</th>
+                                <th>Change</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transaction-history-body">
+                            <tr class="empty-table-row">
+                                <td colspan="10" class="text-center text-muted">No saved transactions found in browser memory.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+        <p>&copy; 2026 Sari-Sari Store Cashier POS System | HTML, CSS, and Vanilla JavaScript with localStorage Persistence</p>
+    </footer>
+
+    <!-- RECEIPT MODAL (PRINTABLE) -->
+    <div id="receipt-modal" class="modal-overlay hidden" aria-hidden="true" role="dialog">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Sales Receipt Preview</h3>
+                <button id="close-modal-x" class="close-btn">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Thermal Paper Printable Area -->
+                <div id="receipt-paper" class="receipt-paper">
+                    <div class="receipt-header">
+                        <h2 class="receipt-store-name">SARI-SARI STORE</h2>
+                        <p class="receipt-title">SALES RECEIPT</p>
+                        <div class="receipt-dashed">================================</div>
+                    </div>
+
+                    <div class="receipt-meta">
+                        <p><strong>Transaction:</strong> <span id="receipt-txn-id">TXN-0001</span></p>
+                        <p><strong>Date:</strong> <span id="receipt-date">Aug 1, 2026 10:30 AM</span></p>
+                        <p><strong>Customer:</strong> <span id="receipt-customer">Walk-in Customer</span></p>
+                    </div>
+
+                    <div class="receipt-dashed">--------------------------------</div>
+
+                    <!-- Itemized Receipts List -->
+                    <div id="receipt-items-list" class="receipt-items-list">
+                        <!-- Dynamic items -->
+                    </div>
+
+                    <div class="receipt-dashed">--------------------------------</div>
+
+                    <div class="receipt-totals">
+                        <div class="receipt-line">
+                            <span>Subtotal:</span>
+                            <span id="receipt-subtotal">₱0.00</span>
+                        </div>
+                        <div class="receipt-line" id="receipt-discount-line">
+                            <span>Discount:</span>
+                            <span id="receipt-discount">₱0.00</span>
+                        </div>
+                        <div class="receipt-line receipt-total-bold">
+                            <span>TOTAL:</span>
+                            <span id="receipt-total">₱0.00</span>
+                        </div>
+                        <div class="receipt-dashed">--------------------------------</div>
+                        <div class="receipt-line">
+                            <span>Cash Received:</span>
+                            <span id="receipt-paid">₱0.00</span>
+                        </div>
+                        <div class="receipt-line">
+                            <span>Change:</span>
+                            <span id="receipt-change">₱0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="receipt-dashed">================================</div>
+                    <div class="receipt-footer">
+                        <p>THANK YOU!</p>
+                        <p>Maraming Salamat!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button id="print-receipt-btn" class="btn btn-success">PRINT RECEIPT</button>
+                <button id="close-receipt-btn" class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
