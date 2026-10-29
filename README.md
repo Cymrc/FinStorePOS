@@ -6,7 +6,7 @@
 
 ## 🔗 Live Demo
 
-- **Play Online:** [FinStorePOS Live Preview](https://cymrc.github.io/FinStorePOS/)
+- **Visit Online:** [FinStorePOS Live Preview](https://cymrc.github.io/FinStorePOS/)
 
 ---
 
