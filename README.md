@@ -58,7 +58,8 @@ The system is designed to streamline the checkout process for small retail busin
 
 | Home Screen | Transaction History |
 |-------------|--------------------|
-| *Add your screenshot here* | *Add your screenshot here* |
+| <img width="1600" height="900" alt="{D873E659-784E-4207-B580-2A61787884E0}" src="https://github.com/user-attachments/assets/ef7954b6-31b3-408d-a795-42d5d29d0762" />
+ |
 
 ---
 
