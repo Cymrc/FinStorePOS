@@ -1,3 +1,6 @@
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/ab4a1646-81ca-47b5-8bbc-3f2a5cd95cf5" />
+
+
 # FinStorePOS — Sari-Sari Store Point of Sale (POS) System
 
 > **⚠️ Notice:** *This platform and its repository files are strictly intended for a mini-project.*
